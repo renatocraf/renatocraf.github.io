@@ -53,12 +53,22 @@
 
 	</nav>
 	<div id="content">
-		<div id="dados_blockchain" style="display: block;" class="janela"><h2>Dados Blockchain</h2></div>
-		<div id="add_Pessoa" style="display: none;" class="janela"><h2>Criar CNH</h2></div>
-		<div id="get_Pessoa" style="display: none;" class="janela"><h2>Mostrar dados CNH</h2></div>
-		<div id="edit_Validade" style="display: none;" class="janela"><h2>Alterar data de Validade CNH</h2></div>
-		<div id="edit_Categoria" style="display: none;" class="janela"><h2>Alterar Categoria CNH</h2></div>
-		<div id="buscas" style="display: none;"  class="janela">
+		<div id="dados_blockchain" style="display: block;" class="janela">
+			<h2>Dados Blockchain</h2>
+		</div>
+		<div id="add_Pessoa" style="display: none;" class="janela">
+			<h2>Criar CNH</h2>
+		</div>
+		<div id="get_Pessoa" style="display: none;" class="janela">
+			<h2>Mostrar dados CNH</h2>
+		</div>
+		<div id="edit_Validade" style="display: none;" class="janela">
+			<h2>Alterar data de Validade CNH</h2>
+		</div>
+		<div id="edit_Categoria" style="display: none;" class="janela">
+			<h2>Alterar Categoria CNH</h2>
+		</div>
+		<div id="buscas" style="display: none;" class="janela">
 			<h3>Busca por Id:</h3>
 			<div class="form-inline">
 				<label>Id</label>
@@ -75,13 +85,19 @@
 		</div>
 
 		<div id="dados_blockchain2" style="display: block;" class="janela">
+			<div class="form-inline">
+				<button id='cookieRopsten' class="btn btn-dark float-right">Selecionar Rede Ropsten</button>
+				<button id='cookiePrivada' class="btn btn-dark float-right">Selecionar Rede Privada</button>
+			</div>
+			<br>
+			<p>Rede Selecionada:<a id="redeselecionada"></a></p>
 			<p>Balance: <a id='balance'></a></p>
 			<p>Account Connected: <a id='coinbase'></a></p>
 			<p>Actual Block Number: <a id='blockNumber'></a></p>
 			<p>Contract Address: <a id='address'></a></p>
 		</div>
 		<div id="add_Pessoa2" style="display: none;" class="janela">
-			
+
 			<div>
 				<label>Nome</label>
 				<input class="form-control" type="text" id="name">
@@ -93,8 +109,8 @@
 				<input class="form-control" type="text" id="namemae">
 				<br>
 				<div class="form-inline">
-					<label>Categoria</label>					
-					<select class="form-control" id="categoria">						
+					<label>Categoria</label>
+					<select class="form-control" id="categoria">
 						<option>A</option>
 						<option>AB</option>
 						<option>AC</option>
@@ -104,7 +120,7 @@
 						<option>C</option>
 						<option>D</option>
 						<option>E</option>
-					  </select>										
+					</select>
 					<br>
 					<label>Data de Nascimento</label>
 					<input class="form-control" type="date" id="data_nasc">
@@ -120,7 +136,7 @@
 			</div>
 			<div id="resultado"></div>
 		</div>
-		<div id="get_Pessoa2" style="display: none;" class="janela">		
+		<div id="get_Pessoa2" style="display: none;" class="janela">
 			<div class="form-inline">
 				<p>Nome:</p>
 				<p class="dados" id="nameBusca"></p>
@@ -149,7 +165,7 @@
 				<p>Data de Validade da CNH:</p>
 				<p class="dados" id="valBusca"></p>
 			</div>
-		</div>		
+		</div>
 		<div id="edit_Validade2" style="display: none;" class="janela">
 			<div class="form-inline">
 				<p>Nome:</p>
@@ -179,7 +195,7 @@
 					<option>C</option>
 					<option>D</option>
 					<option>E</option>
-				  </select>	
+				</select>
 				<button id='altera_cat' class="btn btn-dark float-right">Alterar</button>
 			</div>
 		</div>
@@ -205,7 +221,7 @@
 		function addPessoa() {
 			$(".janela").hide();
 			$("#add_Pessoa").show();
-			$("#add_Pessoa2").show();			
+			$("#add_Pessoa2").show();
 		}
 		function mostrarBlockchain() {
 			$(".janela").hide();
@@ -257,10 +273,7 @@
 			});
 
 			web3.eth.getBlockNumber().then(console.log);
-			web3.eth.isMining().then(function (valor) { 
-				console.log("Está minerando:", valor);
-				if(!valor) alert("A conta não está minerando! Não será possível executar edições.") 
-			});
+
 
 			// Create variables to use on html page
 			web3.eth.getCoinbase().then(function (coinbase) {
@@ -272,9 +285,23 @@
 				$('#blockNumber').html(blockNumber);
 			})
 
+			var address = "";
+
+			if (getCookie("ropsten") == "true") {
+				$('#redeselecionada').html("Ropsten");
+				address = "0xe72E43695fBfb2D4Bf47100285F726E9DDcA9bbb";
+			} else if (getCookie("privada") == "true") {
+				$('#redeselecionada').html("Privada");
+				address = "0x5918df921Fe6086FAa609A301cC03d59127D6b91";
+				web3.eth.isMining().then(function (valor) {
+					console.log("Está minerando:", valor);
+					if (!valor) alert("A conta não está minerando! Não será possível executar edições.")
+				});
+			}
+
 			/////////////////////////////
 			// Sample of a contract's address deployed in Ropsten test network
-			var address = "0x5918df921Fe6086FAa609A301cC03d59127D6b91"
+
 			// Deployed Contract's Adress, substitute here with your contract's address
 			// var address = "0xB40dCa2c4b6B84C1131eBDdCf3df6D2f294B0ba8"
 			$('#address').html(address)
@@ -542,9 +569,9 @@
 				M.toast({ html: tx })
 			})
 		})
-	
-		function convertCattoInt(categoria){
-			switch(categoria){
+
+		function convertCattoInt(categoria) {
+			switch (categoria) {
 				case 'AB':
 					return 12;
 				case 'AC':
@@ -562,53 +589,53 @@
 				case 'D':
 					return 4;
 				case 'E':
-					return 5;				
+					return 5;
 			}
 		}
 
-		function convertInttoCat(categoria){
+		function convertInttoCat(categoria) {
 			let valor = '';
-			if(categoria >= 10){
+			if (categoria >= 10) {
 				valor = 'A';
 			}
-			if (categoria%10 == 2) {
-				valor = valor+'B';
+			if (categoria % 10 == 2) {
+				valor = valor + 'B';
 			}
-			else if (categoria%10 == 3) {
-				valor = valor+'C';
+			else if (categoria % 10 == 3) {
+				valor = valor + 'C';
 			}
-			else if (categoria%10 == 4) {
-				valor = valor+'D';
+			else if (categoria % 10 == 4) {
+				valor = valor + 'D';
 			}
-			else if (categoria%10 == 5) {
-				valor = valor+'E';
-			}			
-			return valor;		
+			else if (categoria % 10 == 5) {
+				valor = valor + 'E';
+			}
+			return valor;
 		}
 
 		$('#buscaId').click(function () {
 			console.log("buscando...");
 			_buscaID = $('#_buscaID').val();
-			contract.methods.getPessoa(_buscaID).call().then(function (pessoa) {				
-				const options = {year: 'numeric', month: 'long', day: 'numeric' };
+			contract.methods.getPessoa(_buscaID).call().then(function (pessoa) {
+				const options = { year: 'numeric', month: 'long', day: 'numeric' };
 				$('#nameBusca').html(pessoa.nome);
 				$('#paiBusca').html(pessoa.nome_pai);
 				$('#maeBusca').html(pessoa.nome_mae);
 				let categoria = convertInttoCat(pessoa.categoria);
-				console.log("categoria:",categoria);
+				console.log("categoria:", categoria);
 				$('#categoriaBusca').html(categoria);
 				$('#cat_alt').val(categoria);
 				//console.log(pessoa.nasc_date);
 				nascimento = new Date(parseInt(pessoa.nasc_date));
 				$('#nascBusca').html(nascimento.toISOString().substr(0, 10));
-				validade = new Date(parseInt(pessoa.data_val));				
-				if(validade< new Date()){
-					$('#valBusca').css( { 'color': 'red'} );
+				validade = new Date(parseInt(pessoa.data_val));
+				if (validade < new Date()) {
+					$('#valBusca').css({ 'color': 'red' });
 					alert("Validade vencida!");
-				};	
-				$('#valBusca').html(validade.toISOString().substr(0, 10));				
+				}else $('#valBusca').css({ 'color': 'black' });
+				$('#valBusca').html(validade.toISOString().substr(0, 10));
 				$('#data_val_alt').val(validade.toISOString().substr(0, 10));
-				$('.nome_alt').html(pessoa.nome);				
+				$('.nome_alt').html(pessoa.nome);
 				$('#cpfBusca').html(pessoa.cpf);
 			}).catch(function (tx) {
 				if (tx) {
@@ -625,47 +652,47 @@
 			contract.methods.getPessoaCpf(_buscaCPF).call().then(function (numero) {
 				//console.log("numero:", numero);
 				$('#_buscaID').val(parseInt(numero));
-				contract.methods.getPessoa(numero).call().then(function (pessoa) {				
-				$('#nameBusca').html(pessoa.nome);
-				$('#paiBusca').html(pessoa.nome_pai);
-				$('#maeBusca').html(pessoa.nome_mae);
-				let categoria = convertInttoCat(pessoa.categoria);
-				console.log("categoria:",categoria);
-				$('#categoriaBusca').html(categoria);
-				$('#cat_alt').val(categoria);				
-				console.log(pessoa.nasc_date);
-				nascimento = new Date(parseInt(pessoa.nasc_date));
-				$('#nascBusca').html(nascimento.toISOString().substr(0, 10));
-				validade = new Date(parseInt(pessoa.data_val));				
-				if(validade< new Date()){
-					$('#valBusca').css( { 'color': 'red'} );
-					alert("Validade vencida!");
-				};	
-			 	$('#valBusca').html(validade.toISOString().substr(0, 10));
-				$('#data_val_alt').val(validade.toISOString().substr(0, 10));
-				$('.nome_alt').html(pessoa.nome);	
-				$('#cpfBusca').html(pessoa.cpf);
-			}).catch(function (tx) {
-				if (tx) {
-					alert('Some error has occurred, go to console!')
-				}
-				console.log(tx);
-				M.toast({ html: tx })
-			});
+				contract.methods.getPessoa(numero).call().then(function (pessoa) {
+					$('#nameBusca').html(pessoa.nome);
+					$('#paiBusca').html(pessoa.nome_pai);
+					$('#maeBusca').html(pessoa.nome_mae);
+					let categoria = convertInttoCat(pessoa.categoria);
+					console.log("categoria:", categoria);
+					$('#categoriaBusca').html(categoria);
+					$('#cat_alt').val(categoria);
+					console.log(pessoa.nasc_date);
+					nascimento = new Date(parseInt(pessoa.nasc_date));
+					$('#nascBusca').html(nascimento.toISOString().substr(0, 10));
+					validade = new Date(parseInt(pessoa.data_val));
+					if (validade < new Date()) {
+						$('#valBusca').css({ 'color': 'red' });
+						alert("Validade vencida!");
+					};
+					$('#valBusca').html(validade.toISOString().substr(0, 10));
+					$('#data_val_alt').val(validade.toISOString().substr(0, 10));
+					$('.nome_alt').html(pessoa.nome);
+					$('#cpfBusca').html(pessoa.cpf);
+				}).catch(function (tx) {
+					if (tx) {
+						alert('Some error has occurred, go to console!')
+					}
+					console.log(tx);
+					M.toast({ html: tx })
+				});
 			});
 		})
-	
+
 		$('#altera_val').click(function () {
 			M.toast({ html: 'Transaction received and will be mined!' });
 			console.log("Transaction received and will be mined!");
-			var _data_vald = Date.parse($('#data_val_alt').val());			
+			var _data_vald = Date.parse($('#data_val_alt').val());
 			var _buscaID = $('#_buscaID').val();
 			web3.eth.getAccounts().then(function (accounts) {
 				var acc = accounts[0];
 				console.log(acc);
 				//$('#resultado').html("<h2>Cadastrando...Aguarde!</h2>");
-				return contract.methods.mudarValidade(_buscaID,_data_vald).send({ from: acc });
-			}).then(function (tx) {				
+				return contract.methods.mudarValidade(_buscaID, _data_vald).send({ from: acc });
+			}).then(function (tx) {
 				console.log(tx);
 				if (!alert("Transaction mined at block " + tx.blockNumber + "\nBlockHash = " + tx.blockHash)) { window.location.reload(); }
 
@@ -675,13 +702,13 @@
 				}
 				console.log(tx);
 				M.toast({ html: tx })
-			})			
+			})
 		})
 
 		$('#altera_cat').click(function () {
 			M.toast({ html: 'Transaction received and will be mined!' });
 			console.log("Transaction received and will be mined!");
-			var cat_alt = $('#cat_alt').val();	
+			var cat_alt = $('#cat_alt').val();
 			//console.log("_cat_alt:",cat_alt);			
 			cat_alt = convertCattoInt(cat_alt);
 			//console.log("_cat_alt:",cat_alt);		
@@ -690,8 +717,8 @@
 				var acc = accounts[0];
 				console.log(acc);
 				//$('#resultado').html("<h2>Cadastrando...Aguarde!</h2>");
-				return contract.methods.mudarCategoria(_buscaID,cat_alt).send({ from: acc });
-			}).then(function (tx) {				
+				return contract.methods.mudarCategoria(_buscaID, cat_alt).send({ from: acc });
+			}).then(function (tx) {
 				console.log(tx);
 				if (!alert("Transaction mined at block " + tx.blockNumber + "\nBlockHash = " + tx.blockHash)) { window.location.reload(); }
 
@@ -701,9 +728,43 @@
 				}
 				console.log(tx);
 				M.toast({ html: tx })
-			})			
-		})
+			})
+		});
 
+		function setCookie(cname, cvalue, exdays) {
+			const d = new Date();
+			d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+			let expires = "expires=" + d.toUTCString();
+			document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		}
+
+		function getCookie(cname) {
+			let name = cname + "=";
+			let decodedCookie = decodeURIComponent(document.cookie);
+			let ca = decodedCookie.split(';');
+			for (let i = 0; i < ca.length; i++) {
+				let c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+					return c.substring(name.length, c.length);
+				}
+			}
+			return "";
+		}
+
+		$('#cookieRopsten').click(function () {
+			document.cookie = "privada=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+			setCookie("ropsten", "true", 1);
+			window.location.reload();
+		});
+
+		$('#cookiePrivada').click(function () {
+			document.cookie = "ropsten=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+			setCookie("privada", "true", 1);
+			window.location.reload();
+		});
 
 	</script>
 </body>
