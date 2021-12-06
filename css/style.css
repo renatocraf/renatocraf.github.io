@@ -1,0 +1,114 @@
+:root{
+    --bdazzled-blue: #3d5a80ff;
+    --pale-cerulean: #98c1d9ff;
+    --light-cyan: rgb(240, 254, 255);
+    --burnt-sienna: #6BA368;
+    --gunmetal: #515B3A;
+    
+    --header-height:100px;
+    --menu-width:200px;
+    --footer-height:100px;
+    
+    --form-width:400px;
+    --table-width: 1000px;
+    }
+
+
+body{   
+    display: grid;
+    grid-template-columns: var(--menu-width) 1fr;
+    grid-template-rows: 
+        var(--header-height)
+        1fr
+        var(--footer-height);
+    grid-template-areas:
+    " logo title"
+    " links conteudo"
+    " links rodape" ;
+    height: 100vh;
+    /*background:  
+        linear-gradient(
+            121.06deg, 
+            #DFEFF2 28.31%, 
+            rgba(22, 173, 206, 0) 
+            90.27%), 
+        #4A929C;*/
+}
+
+div#logo{
+    background-color: #4F3091;
+    grid-area: logo;
+}
+
+img#logo_img{
+    width: var(--menu-width);
+    height: auto;
+}
+
+div#header{ 
+    display:grid;
+    padding: 15px;
+    /*grid-template-columns: 0.10fr 1fr 1fr;*/
+    grid-area: title;
+    background-color: #4F3091;
+    /*#045A4C;*/ /* #428bae*/
+    color: #fff;     
+
+}
+
+h1{
+    text-shadow: 0.1em 0.1em 0.2em black;
+}
+
+nav#menu{
+    /*background-color: #00AA8E;*/
+    padding-top: 50px;
+    grid-area: links ;
+    background-color: #896ACD;
+
+}
+
+#content{
+    grid-area: conteudo;
+    padding: 50px;
+    /*background-color: #00AA8E;*/
+    /*background-color: #73c4e2;*/
+    background-color: #BD8CD9;
+}
+
+div#footer{
+    padding-top: 60px ;
+    padding-right: 15px;
+    text-align: right;
+    grid-area: rodape;
+    background-color:  #BD8CD9;
+}
+
+h2{
+    text-shadow: 0.1em 0.1em 0.2em rgb(255, 255, 255);
+}
+label,p{
+    padding-left: 5px;
+    padding-right: 5px;
+    text-shadow: 0.1em 0.1em 0.2em rgb(255, 255, 255);
+    font-size: 20px;
+}
+
+p#foot{
+    font-size: 15px;
+}
+
+p#dados{
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 15px;
+}
+
+button#insert{
+    font-size: 20px;
+    
+}
+
+button{
+    margin-left: 5px;
+}
