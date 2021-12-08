@@ -1,0 +1,13 @@
+admin.addPeer("enode://c741895a3e952145c69b1a890840a92d70b8aa91b571bae2369dfa29f9dc2286365680602924fd2d53834438fc2f273be0eb53382ebbf7210c73ab25f6263ea2")
+eth.blockNumber
+admin.nodeInfo
+admin.nodeInfo.enode
+admin.getPeers
+admin.addPeer("enode://ca4ed8ceb1914bd7224832f98bc0b0301002de48d755fd201ac6c745e2025fbb89c411367307329a914576794165e1f5bd2eb606c5e7a12ef682c538c9fa4997@127.0.0.1:30302?discport=0")
+admin.getPeers
+miner.start()
+eth.blockNumber
+admin.addPeer("enode://c741895a3e952145c69b1a890840a92d70b8aa91b571bae2369dfa29f9dc2286365680602924fd2d53834438fc2f273be0eb53382ebbf7210c73ab25f6263ea2@127.0.0.1:30301?discport=0")
+eth.blockNumber
+adder_contract_01.pessoas(1)
+eth.blockNumber
